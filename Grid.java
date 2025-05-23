@@ -404,13 +404,12 @@ public class Grid implements GridInterface, Cloneable
 		int c;	// column component of location
 
       	trace("validMove: validMove starts");
-      	//ME DO
 		r = l.getRow();
 		c = l.getColumn();
-		if (r > MINIMUM && r < dimension && c > MINIMUM && c < dimension){
+		if (r >= MINIMUM && r <= dimension && c >= MINIMUM && c <= dimension){
 			b = true;
 		}
-		else{
+		else {
 			b = false;
 		}
       	trace("validMove: validMove ends");
