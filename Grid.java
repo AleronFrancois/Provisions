@@ -165,7 +165,7 @@ public class Grid implements GridInterface, Cloneable
 	{
 		final int MINIMUM = 1;	// minimum row and column number
 
-		Grid b;					// the new grid (i.e. the copy)
+		Grid b = null;					// the new grid (i.e. the copy)
 		Location l;				// a location value to iterate through the squares
 		Symbol s;				// the symbol of the 'current' square
 		

@@ -14,13 +14,12 @@
 */
 
 
-public class GameTree implements GameTreeInterface
-{
+public class GameTree implements GameTreeInterface {
 	// finals
-	protected final boolean TRACING = false;	// do we want to see trace output?
+	protected final boolean TRACING = false; // do we want to see trace output?
 
 	// properties
-	protected TNode root;						// the node at the top of the tree
+	protected TNode root; // the node at the top of the tree
 
 
 	/**
@@ -30,8 +29,7 @@ public class GameTree implements GameTreeInterface
 	 *	Post-condition: the GameTree object's "root" field is null
 	 *	Informally: creates an empty tree
 	*/
-	public GameTree()
-	{
+	public GameTree() {
 		trace("GameTree: constructor starts");
 		
 //COMPLETE ME
@@ -56,8 +54,7 @@ public class GameTree implements GameTreeInterface
 	 *	@param o Object to include in TNode node's data field
 	 *	@param l level number for GameTree
 	*/
-	public GameTree(Object o, int l)
-	{
+	public GameTree(Object o, int l) {
 		trace("GameTree: constructor starts");
 		
 		root = new TNode(o, l);
@@ -76,8 +73,7 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return boolean whether or not the game tree is empty
 	*/
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		trace("isEmpty: isEmpty starts and ends");
 		
 		return (root == null);
@@ -95,18 +91,17 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return Object the data item of the root node
 	*/
-	public Object getData() throws EmptyGameTreeException
-	{
+	public Object getData() throws EmptyGameTreeException {
 		trace("getData: getData starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			trace("getData: empty game tree");
 			throw new EmptyGameTreeException();
 		}
 
 		trace("getData: getData ends");
-//COMPLETE ME
+
+		return TRACING;
 	}
 	
 	
@@ -121,18 +116,16 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return int the level number of the root node
 	*/
-	public int getLevel() throws EmptyGameTreeException
-	{
+	public int getLevel() throws EmptyGameTreeException {
 		trace("getLevel: getLevel starts");
 		
-		if (isEmpty())
-		{
-			trace("getLevel: empty game tree");
+		if (isEmpty()) {
 			throw new EmptyGameTreeException();
 		}	
 		
 		trace("getLevel: getLevel ends");
-//COMPLETE ME
+
+		return root.getLevel();
 	}	
 	
 
@@ -148,15 +141,12 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return GameTree the eldest child of the current node
 	*/
-	public GameTree getChild() throws EmptyGameTreeException
-	{
+	public GameTree getChild() throws EmptyGameTreeException {
 		GameTree r;
 		
 		trace("getChild: getChild starts");
 		
-		if (isEmpty())
-		{
-			trace("getChild: empty game tree");
+		if (isEmpty()) {
 			throw new EmptyGameTreeException();
 		}
   
@@ -165,6 +155,7 @@ public class GameTree implements GameTreeInterface
 		r.root = root.getChild();
 
 		trace("getChild: getChild ends");
+
 		return r;
 	}
 
@@ -181,22 +172,21 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return GameTree the next sibling of the current node
 	*/
-	public GameTree getSibling() throws EmptyGameTreeException
-	{
+	public GameTree getSibling() throws EmptyGameTreeException {
 		GameTree r;
 		
 		trace("getSibling: getSibling starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			trace("getSibling: empty game tree");
 			throw new EmptyGameTreeException();
   		}
   		
-//COMPLETE ME
+		//COMPLETE ME
 
 		trace("getSibling: getSibling ends");
-		return r;
+
+		return getSibling();
 	}
 
 
@@ -212,17 +202,15 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@param o Object to install as data for root node
 	*/
-	public void setData(Object o) throws EmptyGameTreeException
-	{
+	public void setData(Object o) throws EmptyGameTreeException {
 		trace("setData: setData starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			trace("setData: empty game tree");
 			throw new EmptyGameTreeException();
 		}
 		
-//COMPLETE ME
+		//COMPLETE ME
 		
 		trace("setData: setData ends");
 	}
@@ -240,17 +228,15 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@param l level number for root of current game tree
 	*/
-	public void setLevel(int l) throws EmptyGameTreeException
-	{
+	public void setLevel(int l) throws EmptyGameTreeException {
 		trace("setLevel: setLevel starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			trace("setLevel: empty game tree");
 			throw new EmptyGameTreeException();
   		}
   		
-//COMPLETE ME
+		//COMPLETE ME
 		
 		trace("setLevel: setLevel ends");
 	}
@@ -268,12 +254,10 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@param t GameTree to be set as eldest child of current game tree
 	*/
-	public void setChild(GameTree t) throws EmptyGameTreeException
-	{
+	public void setChild(GameTree t) throws EmptyGameTreeException {
 		trace("setChild: setChild starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			trace("setChild: empty game tree");
 			throw new EmptyGameTreeException();
   		}
@@ -296,17 +280,15 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@param t GameTree to be set as next sibling of current game tree
 	*/
-	public void setSibling(GameTree t) throws EmptyGameTreeException
-	{
+	public void setSibling(GameTree t) throws EmptyGameTreeException {
 		trace("setSibling: setSibling starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			trace("setSibling: empty game tree");
 			throw new EmptyGameTreeException();
 		}
 		  
-//COMPLETE ME
+		//COMPLETE ME
 
 		trace("setSibling: setSibling ends");
 	}
@@ -326,8 +308,7 @@ public class GameTree implements GameTreeInterface
 	 *	@param s Stack of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelDF(Stack s, Symbol m)
-	{
+	public void generateLevelDF(Stack s, Symbol m) {
 		final int MINIMUM = 1;	// minimum row and column number
 
 		GameTree t;		// new game tree leaf being created
@@ -339,7 +320,7 @@ public class GameTree implements GameTreeInterface
 	
 		trace("generateLevelDF: generateLevelDF starts");
 		
-//COMPLETE ME
+		//COMPLETE ME
 		
 		trace("generateLevelDF: generateLevelDF ends");
 	}
@@ -370,16 +351,34 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameDF(Stack s, Symbol m, int d)
-	{
-		GameTree t;		// result
+	public GameTree buildGameDF(Stack s, Symbol m, int d) {
+		GameTree t = null; // result
 		
 		trace("buildGameDF: buildGameDF starts");
+
+		if (isEmpty()) {
+			trace("BuildGameDF: The tree is empty at the moment");
+			return t;
+		}
+
+		if (getLevel() == d) {
+			trace("buildGameDF: The tree is already deep enough");
+			return this;
+		}
 		
-//COMPLETE ME
+		generateLevelDF(s, m);
+
+		while (!s.isEmpty()) {
+			GameTree next = null;
+			t = next.buildGameDF(s, m, d);
+
+			if (!t.isEmpty()) {
+				trace("buildGameDF: A solution has been found");
+				return t;
+			}
+		}
 
 		trace("buildGameDF: buildGameDF ends");
-
 		return t;
 	}
 	
@@ -398,8 +397,7 @@ public class GameTree implements GameTreeInterface
 	 *	@param q Queue of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelBF(Queue q, Symbol m)
-	{
+	public void generateLevelBF(Queue q, Symbol m) {
 		final int MINIMUM = 1;	// minimum row and column number
 
 		GameTree t;		// new game tree leaf being created
@@ -411,7 +409,7 @@ public class GameTree implements GameTreeInterface
 
 		trace("generateLevelBF: generateLevelBF starts");
 		
-//COMPLETE ME
+		//COMPLETE ME
 		
 		trace("generateLevelBF: generateLevelBF ends");
 	}
@@ -443,16 +441,36 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameBF(Queue q, Symbol m, int d)
-	{
-		GameTree t;		// result
+	public GameTree buildGameBF(Queue q, Symbol m, int d) {
+		GameTree t = new GameTree(); // result
 		
 		trace("buildGameBF: buildGameBF starts");
 		
-//COMPLETE ME
+		// Return an empty tree if the current tree is empty
+		if (isEmpty()) {
+			return t;
+		}
+
+		// Return the current tree if it is already deep enough
+		if (getLevel() == d) {
+			return this;
+		}
+
+		// Generate the next level of the tree and push the queue and queen symbol onto the stack
+		generateLevelBF(q, m);
+
+		// Finds a solution by removing the front of the stack
+		while (!q.isEmpty()) {
+			GameTree next = null;
+			t = next.buildGameBF(q, m, d);
+
+			// If a solution is found, return it
+			if (!t.isEmpty()) {
+				return t;
+			}
+		}		
 
 		trace("buildGameBF: buildGameBF ends");
-
 		return t;
 	}				
 
@@ -470,24 +488,23 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return String printable equivalent of root node contents
 	*/
-	protected String rootNodeToString()
-	{
+	protected String rootNodeToString() {
 		String s;	// result
 
 		trace("rootNodeToString: rootNodeToString starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			// empty tree so no value at all
 			s = "<>";
 		}
-		else
-		{
+		else {
 			// non-empty tree so grab String version of the data item
 			s = getData().toString() + " ";
 		}
 
 		trace("rootNodeToString: rootNodeToString ends");
+
+		// Return the root node as a string 
 		return s;
 	}
 	
@@ -504,39 +521,36 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@return String printable contents of game tree
 	*/
-	public String toString()
-	{
+	public String toString() {
 		GameTree c;		// traversal variable
 		String s;		// result
 
 		trace("toString: toString starts");
 		
-		if (isEmpty())
-		{
+		if (isEmpty()) {
 			// empty tree so no value at all
 			s = "<>";
 		}
-		else
-		{
+		else {
 			// non-empty tree so start at the top...
 			s = rootNodeToString();
 
 			// ...and then work down...
 			c = getChild();
-			if (! c.isEmpty())
-			{
+			if (! c.isEmpty()) {
 				s += c.toString();
 			}
 
 			// ... and across
 			c = getSibling();
-			if (! c.isEmpty())
-			{
+			if (! c.isEmpty()) {
 				s += c.toString();
 			}
 		}
 
 		trace("toString: toString ends");
+
+		// Return the game tree as a string
 		return s;
 	}
 
@@ -551,10 +565,8 @@ public class GameTree implements GameTreeInterface
 	 *
 	 *	@param s String to display as tracing message
 	*/
-	protected void trace(String s)
-	{
-		if (TRACING)
-		{
+	protected void trace(String s) {
+		if (TRACING) {
 			System.out.println("GameTree: " + s);
 		}
 	}
