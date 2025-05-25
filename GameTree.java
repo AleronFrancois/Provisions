@@ -31,8 +31,8 @@ public class GameTree implements GameTreeInterface {
 	*/
 	public GameTree() {
 		trace("GameTree: constructor starts");
-		
-//COMPLETE ME
+		//ME DO
+		root = new TNode(null, 0);
 		
 		trace("GameTree: constructor ends");
 	}
@@ -98,10 +98,11 @@ public class GameTree implements GameTreeInterface {
 			trace("getData: empty game tree");
 			throw new EmptyGameTreeException();
 		}
-
-		trace("getData: getData ends");
-
-		return TRACING;
+		else {
+			trace("getData: getData ends");
+			//ME DO
+			return root.getData();
+		}
 	}
 	
 	
@@ -182,11 +183,15 @@ public class GameTree implements GameTreeInterface {
 			throw new EmptyGameTreeException();
   		}
   		
-		//COMPLETE ME
+		//ME DO
+		else{
+			r = new GameTree();
+			r.root = root.getSibling();
+		}
 
 		trace("getSibling: getSibling ends");
 
-		return getSibling();
+		return r;
 	}
 
 
@@ -209,8 +214,10 @@ public class GameTree implements GameTreeInterface {
 			trace("setData: empty game tree");
 			throw new EmptyGameTreeException();
 		}
-		
-		//COMPLETE ME
+		else{
+			//ME DO
+			root.setData(o);
+		}
 		
 		trace("setData: setData ends");
 	}
@@ -235,8 +242,10 @@ public class GameTree implements GameTreeInterface {
 			trace("setLevel: empty game tree");
 			throw new EmptyGameTreeException();
   		}
-  		
-		//COMPLETE ME
+		else{
+			//ME DO
+			root.setLevel(l);
+		}
 		
 		trace("setLevel: setLevel ends");
 	}
@@ -287,8 +296,10 @@ public class GameTree implements GameTreeInterface {
 			trace("setSibling: empty game tree");
 			throw new EmptyGameTreeException();
 		}
-		  
-		//COMPLETE ME
+		else{
+			//ME DO
+			root.setSibling(t.root);
+		}
 
 		trace("setSibling: setSibling ends");
 	}
@@ -319,8 +330,15 @@ public class GameTree implements GameTreeInterface {
 		Location l;		// potential location for queen on new board
 	
 		trace("generateLevelDF: generateLevelDF starts");
-		
-		//COMPLETE ME
+		//ME DO
+		b1 = (Grid)root.getData();
+		d = b1.getDimension();
+		l = m.getLocation();
+		b2 = new Grid(d, l, m);
+		v = root.getLevel();
+		t = new GameTree(b2, v + 1);
+		s.push(t);
+
 		
 		trace("generateLevelDF: generateLevelDF ends");
 	}
@@ -353,7 +371,7 @@ public class GameTree implements GameTreeInterface {
 	*/
 	public GameTree buildGameDF(Stack s, Symbol m, int d) {
 		GameTree t = null; // result
-		
+		//COMPLETE
 		trace("buildGameDF: buildGameDF starts");
 
 		if (isEmpty()) {
@@ -408,8 +426,15 @@ public class GameTree implements GameTreeInterface {
 		Location l;		// potential location for queen on new board
 
 		trace("generateLevelBF: generateLevelBF starts");
-		
-		//COMPLETE ME
+		//ME DO
+		b1 = (Grid)root.getData();
+		d = b1.getDimension();
+		l = m.getLocation();
+		b2 = new Grid(d, l, m);
+		v = root.getLevel();
+		t = new GameTree(b2, v + 1);
+		q.add(t);
+
 		
 		trace("generateLevelBF: generateLevelBF ends");
 	}
@@ -443,6 +468,7 @@ public class GameTree implements GameTreeInterface {
 	*/
 	public GameTree buildGameBF(Queue q, Symbol m, int d) {
 		GameTree t = new GameTree(); // result
+		//COMPLETE
 		
 		trace("buildGameBF: buildGameBF starts");
 		
@@ -568,6 +594,10 @@ public class GameTree implements GameTreeInterface {
 	protected void trace(String s) {
 		if (TRACING) {
 			System.out.println("GameTree: " + s);
+		}
+	}
+}
+
 		}
 	}
 }
