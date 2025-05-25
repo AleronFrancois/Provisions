@@ -143,7 +143,9 @@ public class Grid implements GridInterface, Cloneable
 			for (int c = MINIMUM; c <= dimension; c++)
 			{
 				l = new Location(r, c);
+				if (l != null){
 				board[r-1][c-1] = new Square(l);
+				}
 			}
 		}
 		
