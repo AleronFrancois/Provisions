@@ -184,11 +184,16 @@ public class NQueens extends Frame implements NQueensInterface, ActionListener
 		
 			b = (Grid)game.getData();
 			trace("paint: solution is: " + b.toString());
-			b.showGrid(window);
+
+			if (b != null) {
+				b.showGrid(window);
+			}
 		}
 		else
 		{	// not yet started so show starting point
-			board.showGrid(window);
+			if (board != null) {
+				board.showGrid(window);
+			}
 			trace("paint: yet to start solving");
 		}
 	    
