@@ -79,8 +79,8 @@ public class Queue implements QueueInterface
 	public boolean isEmpty()
 	{
 	   	trace("isEmpty: isEmpty starts and ends");
-
-//COMPLETE ME
+		//Done by us
+		return (first == null);
 	}
 
 

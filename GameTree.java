@@ -1,3 +1,6 @@
+
+import com.sun.source.tree.ConstantCaseLabelTree;
+
 //KIT107 Assignment 3
 /**
  *	GameTree ADT
@@ -32,7 +35,8 @@ public class GameTree implements GameTreeInterface {
 	public GameTree() {
 		trace("GameTree: constructor starts");
 		//ME DO
-		root = new TNode(null, 0);
+		Grid g = new Grid(); // create an empty grid
+		root = new TNode(g, 0);
 		
 		trace("GameTree: constructor ends");
 	}
@@ -75,8 +79,12 @@ public class GameTree implements GameTreeInterface {
 	*/
 	public boolean isEmpty() {
 		trace("isEmpty: isEmpty starts and ends");
-		
-		return (root == null);
+		if(root == null){
+			return true;
+		}
+		else{
+			return(root.getData() == null);
+		}
 	}
 
 
@@ -319,7 +327,8 @@ public class GameTree implements GameTreeInterface {
 	 *	@param s Stack of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelDF(Stack s, Symbol m) {
+	public void generateLevelDF(Stack s, Symbol m)
+	{
 		final int MINIMUM = 1;	// minimum row and column number
 
 		GameTree t;		// new game tree leaf being created
@@ -331,14 +340,33 @@ public class GameTree implements GameTreeInterface {
 	
 		trace("generateLevelDF: generateLevelDF starts");
 		//ME DO
-		b1 = (Grid)root.getData();
-		d = b1.getDimension();
-		l = m.getLocation();
-		b2 = new Grid(d, l, m);
-		v = root.getLevel();
-		t = new GameTree(b2, v + 1);
-		s.push(t);
+		//if (!isEmpty()) {
+			trace("passed empty game tree check");
+			// get the current game tree
+			t = this;
+			v = t.getLevel() + 1; // new level is one more than current
+			d = ((Grid) t.root.getData()).getDimension(); // get dimension of board
+			b1 = (Grid) t.root.getData(); // get the current board
 
+			// loop through all locations on the board
+			trace("d = " + d);
+			for (int i = MINIMUM; i <= d; i++) {
+				for (int j = MINIMUM; j <= d; j++) {
+					l = new Location(i, j); // create a new location
+					// check if the location is valid for placing a queen
+					if (b1.rowClear(l) && b1.columnClear(l) && b1.diagonalsClear(l)) {
+						trace("passed valid move check");
+						b2 = (Grid) b1.clone(); // copy the current board
+						b2.occupySquare(l, m); // place the queen on the new board
+						// create a new game tree leaf with the new board and level
+						t = new GameTree(b2, v);
+						System.out.println("New game tree leaf: " + t.toString());
+						// push the new game tree onto the stack
+						s.push(t);
+					}
+				}
+			}
+		//}
 		
 		trace("generateLevelDF: generateLevelDF ends");
 	}
@@ -369,34 +397,43 @@ public class GameTree implements GameTreeInterface {
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameDF(Stack s, Symbol m, int d) {
-		GameTree t = null; // result
-		//COMPLETE
-		trace("buildGameDF: buildGameDF starts");
-
-		if (isEmpty()) {
-			trace("BuildGameDF: The tree is empty at the moment");
-			return t;
-		}
-
-		if (getLevel() == d) {
-			trace("buildGameDF: The tree is already deep enough");
-			return this;
-		}
+	public GameTree buildGameDF(Stack s, Symbol m, int d)
+	{
+		GameTree t;	
+		t = new GameTree();	// result
 		
-		generateLevelDF(s, m);
-
-		while (!s.isEmpty()) {
-			GameTree next = null;
-			t = next.buildGameDF(s, m, d);
-
-			if (!t.isEmpty()) {
-				trace("buildGameDF: A solution has been found");
-				return t;
+		trace("buildGameDF: buildGameDF starts");
+		//ME DO
+		//if (!isEmpty()){
+			trace("passed empty game tree check");
+			t.root = root;
+			s.push(t);
+			trace("d = " + d + "Current level = " + t.getLevel());
+			while (t.getLevel() < d && !s.isEmpty()) {
+				t.generateLevelDF(s, m);
+				trace("Current game tree: " + t.toString());
+				trace("pushing t onto stack");
+				s.push(t);
 			}
-		}
+		//}
+		// GameTree c = (Grid) ((GameTree) s.top()).root;
+		// Stack cStack = s;
+		// while (c != null){
+		// 	if (c.solved()){
+		// 		return c;
+		// 	}
+		// 	else{
+		// 		cStack.pop();
+		// 		if (cStack.isEmpty()){
+		// 			trace("No solution found");
+		// 			return;
+		// 		}
+		// 		c = (Grid) cStack.top();
+		// 	}
+		// }
 
 		trace("buildGameDF: buildGameDF ends");
+
 		return t;
 	}
 	
@@ -415,7 +452,8 @@ public class GameTree implements GameTreeInterface {
 	 *	@param q Queue of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelBF(Queue q, Symbol m) {
+	public void generateLevelBF(Queue q, Symbol m)
+	{
 		final int MINIMUM = 1;	// minimum row and column number
 
 		GameTree t;		// new game tree leaf being created
@@ -426,15 +464,8 @@ public class GameTree implements GameTreeInterface {
 		Location l;		// potential location for queen on new board
 
 		trace("generateLevelBF: generateLevelBF starts");
-		//ME DO
-		b1 = (Grid)root.getData();
-		d = b1.getDimension();
-		l = m.getLocation();
-		b2 = new Grid(d, l, m);
-		v = root.getLevel();
-		t = new GameTree(b2, v + 1);
-		q.add(t);
-
+		
+//COMPLETE ME
 		
 		trace("generateLevelBF: generateLevelBF ends");
 	}
@@ -466,37 +497,16 @@ public class GameTree implements GameTreeInterface {
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameBF(Queue q, Symbol m, int d) {
-		GameTree t = new GameTree(); // result
-		//COMPLETE
+	public GameTree buildGameBF(Queue q, Symbol m, int d)
+	{
+		GameTree t;		// result
 		
 		trace("buildGameBF: buildGameBF starts");
 		
-		// Return an empty tree if the current tree is empty
-		if (isEmpty()) {
-			return t;
-		}
-
-		// Return the current tree if it is already deep enough
-		if (getLevel() == d) {
-			return this;
-		}
-
-		// Generate the next level of the tree and push the queue and queen symbol onto the stack
-		generateLevelBF(q, m);
-
-		// Finds a solution by removing the front of the stack
-		while (!q.isEmpty()) {
-			GameTree next = null;
-			t = next.buildGameBF(q, m, d);
-
-			// If a solution is found, return it
-			if (!t.isEmpty()) {
-				return t;
-			}
-		}		
+//COMPLETE ME
 
 		trace("buildGameBF: buildGameBF ends");
+
 		return t;
 	}				
 
@@ -594,10 +604,6 @@ public class GameTree implements GameTreeInterface {
 	protected void trace(String s) {
 		if (TRACING) {
 			System.out.println("GameTree: " + s);
-		}
-	}
-}
-
 		}
 	}
 }

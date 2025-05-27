@@ -231,6 +231,12 @@ public class Symbol implements SymbolInterface, Cloneable
       	trace("showSymbol: showSymbol starts");
 		
 		// where is this square
+		if (getLocation() == null)
+		{
+			trace("showSymbol: showSymbol ends (no location)");
+			return;	// no location so nothing to show
+		}
+		else{
 		r = getLocation().getRow();
 		c = getLocation().getColumn();
 		
@@ -245,6 +251,7 @@ public class Symbol implements SymbolInterface, Cloneable
 		}
 
       	trace("showSymbol: showSymbol ends");
+	}
 	}
 	
 	

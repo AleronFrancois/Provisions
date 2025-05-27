@@ -376,10 +376,19 @@ public class Grid implements GridInterface, Cloneable
 		Square square;	// square at given Location in current Grid
 		boolean result;	// result	
 		Symbol symbol;	// symbol of square at given Location
+		// square = getSquare(l);
+		// symbol = square.getSymbol();
+		// result = symbol.isEmpty();
 		square = getSquare(l);
+		//System.out.println("squareOccupied: square is " + square);
 		symbol = square.getSymbol();
+		//System.out.println("squareOccupied: symbol is " + symbol);
 		result = symbol.isEmpty();
-		return result;
+		//System.out.println("squareOccupied: result is " + result);
+		
+		trace("squareOccupied: squareOccupied ends");
+
+		return !result;
 	}
 	
 	
@@ -536,6 +545,7 @@ public class Grid implements GridInterface, Cloneable
 		for (int r = MINIMUM; r <= dimension; r++) {
 			l1 = new Location(r,c);
 			if (squareOccupied(l1)){
+				trace("columnClear: columnClear finishes with false");
 				return false;
 			}
 		}
