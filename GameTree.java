@@ -410,7 +410,10 @@ public class GameTree implements GameTreeInterface {
 
 		s.push(this); // Pushes the current board onto the stack
 
-
+		/*
+		 	while the stack is not empty, check if the current game is solved.
+			if it is solved return the solution.
+		*/
 		while (!s.isEmpty()) {
 			GameTree t = (GameTree) s.top(); 
 			s.pop(); // Gets the current game tree
