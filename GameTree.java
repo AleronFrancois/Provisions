@@ -327,51 +327,52 @@ public class GameTree implements GameTreeInterface {
 	 *	@param s Stack of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelDF(Stack s, Symbol m)
-	{
-		final int MINIMUM = 1;	// minimum row and column number
+	public void generateLevelDF(Stack s, Symbol m) {
+		final int MINIMUM = 1; 			 // Minimum row and column number
+		GameTree firstChild = null; 	 // Set the first child to null initially
+		GameTree prevChild = null; 		 // Set the previous child to null initially
+		int v = getLevel(); 			 // Get the current level
+		Grid b1 = (Grid) root.getData(); // Get the current board
+		int d = b1.getDimension(); 		 // Get the dimension of the board
+		int column; 					 // Iterates through columns 
 
-		GameTree t;		// new game tree leaf being created
-		int v;			// level for new leaf
-		int d;			// dimension of current game tree's board
-		Grid b1;		// board of current game tree
-		Grid b2;		// new board for game tree leaf being created
-		Location l;	    // potential location for queen on new board
-	
-		System.out.println("generateLevelDF: generateLevelDF starts");
-		// //ME DO
-		// t = this;
-		v = getLevel();
-		d = ((Grid) root.getData()).getDimension(); // get dimension of board
-		b1 = (Grid) root.getData();
-		//while (b1 != null){
-			for(int i = MINIMUM; i <= d; i++) {
-				for(int j = MINIMUM; j <= d; j++){
-					l = new Location(i,j);
-					if (b1.rowClear(l) && b1.columnClear(l) && b1.diagonalsClear(l)) {
-						// create a new board for the game tree leaf
-						b2 = (Grid) b1.clone();
-						b2.occupySquare(l, m); // place the queen on the new board
-						//System.out.println("b1 cloned = " + b1.clone());
-						//System.out.println("b2 = " + b2);
-						// create a new game tree leaf with the new board and level
-						t = new GameTree(b2, v + 1);
-						// set the sibling of the current game tree to the new one
-					    setChild(t);
-						//System.out.println("t in generateLevel" + t.toString());
-						// push the new game tree onto the stack
-						System.out.println("t is " + t.toString());
-						s.push(t);
-					   }
-					//b1 = (Grid) t.getSibling().root.getData();
+		// Place a queen every new row
+		int row = v + 1;
+		if (row > d) {
+			return;
+		}
 
+		/* 
+			Loop through all columns in the current row.
+			Check if the row and column are empty for placing a queen.
+		*/
+		for (column = MINIMUM; column <= d; column++) {
+			Location l = new Location(row, column); // Create a new location for the queen
+
+			// Check if the location is empty for placing a queen
+			if (b1.rowClear(l) && b1.columnClear(l) && b1.diagonalsClear(l)) {
+				Grid b2 = (Grid) b1.clone(); // Clone the current board 
+				b2.occupySquare(l, m); // Place the queen on the new board
+				GameTree child = new GameTree(b2, v + 1); // Create a new game tree node
+
+				// Sets the childs data
+				if (firstChild == null) {
+					firstChild = child;
+				} 
+				else {
+					prevChild.setSibling(child);
 				}
+				prevChild = child;
 
+				s.push(child); // Pushes the new board onto the stack
 			}
-		
-		trace("generateLevelDF: generateLevelDF ends");
-	//}
-}
+		}
+
+		// Set the first child as the child of this node if not null
+		if (firstChild != null) {
+			setChild(firstChild);
+		}
+	}
 	
 	
 	/**
@@ -399,147 +400,43 @@ public class GameTree implements GameTreeInterface {
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameDF(Stack s, Symbol m, int d)
-	{
-		GameTree t;	// result
-		// t = new GameTree();
-		// while (t.getLevel() < 5 && !s.isEmpty()) {
+	public GameTree buildGameDF(Stack s, Symbol m, int d) {
 		trace("buildGameDF: buildGameDF starts");
-		// 	t.setChild(t.generateLevelDF(s, m));
-		// }
-		// System.out.println("Current game tree: " + t.toString());
-		// GameTree result = new GameTree();
-		// if(!s.isEmpty()){
-		// 	Grid c = (Grid) ((GameTree) s.top()).getData();
-		// 	Stack cStack = s;
-		// 	while (c != null && !cStack.isEmpty()) {
-		// 		if (c.solved()){
-		// 			GameTree cTree = new GameTree(c, c.getDimension());
-		// 			//System.out.println("Solution found: " + cTree.toString());
-		// 			result = cTree;
-		// 		}
-		// 		else{
-		// 			cStack.pop();
-		// 			if (!cStack.isEmpty()){
-		// 				c = (Grid) ((GameTree)cStack.top()).getData();
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// Location l = (Location) m.getLocation();
-		// Grid g = new Grid(d, l, m);
-		// t = new GameTree(g, getLevel());
-		t = this;
-		if(isEmpty()){
+
+		// Checks if it is empty then returns a new game tree
+		if (isEmpty()) {
 			return new GameTree();
 		}
-		//s.push(t);
-		//System.out.println("s is " + s.toString());
-		// if (t.getLevel() < d){
-		// 	if (s.isEmpty()){
-		// 		return new GameTree();
-		// 	}
-		// 	else{
-		// 		t = (GameTree) s.top();
-		// 		while(!t.isEmpty() && t.getLevel() < d){
-		// 			t = t.getSibling();
-		// 			if(((Grid)t.getData()).solved()){
-		// 				System.out.println("Solved tree" + t.rootNodeToString());
-		// 				return t;
-		// 			}
-		// 			else{
-		// 			GameTree t2 = t.getChild();
-		// 			while (!t2.isEmpty() && t.getLevel() < d) {
-		// 				if(((Grid)t.getData()).solved()){
-		// 					System.out.println("Solved tree" + t.rootNodeToString());
-		// 					return t;
-		// 				}
-		// 				else{
-		// 					t.generateLevelDF(s, m);
-		// 					t = t.getChild();
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
-	    // 
-		System.out.println("t.getLevel " + t.getLevel());
-		if(((Grid) t.getData()).solved()) {
-			return t;
-		}
-		if (t.getLevel() < d){
-			if (s.isEmpty()){
-				s.push(t);
-				//return new GameTree();
-			}
-			else{
-				t = (GameTree) s.top();
-			}
 
-			if(((Grid)t.getData()).solved()){
-				System.out.println("Solved tree" + t.rootNodeToString());
-				while(!s.isEmpty()){
+		s.push(this); // Pushes the current board onto the stack
+
+
+		while (!s.isEmpty()) {
+			GameTree t = (GameTree) s.top(); 
+			s.pop(); // Gets the current game tree
+			Grid grid = (Grid) t.getData(); 
+
+			// Checks if the grid is solved 
+			if (grid.solved()) {
+
+				// Return the solution if it is solved
+				while (!s.isEmpty()) {
 					s.pop();
 				}
-				System.out.println("This equals " + t.toString());
 				this.setData(t.getData());
 				this.setLevel(t.getLevel());
-				return t;
+
+				return t; // Return the solution
 			}
-			else{
-				if(!s.isEmpty() && !t.isEmpty()){
-					t.generateLevelDF(s, m);
-				// while(!t.getChild().isEmpty()){
-				// 	System.out.println("Get child actually used");
-				// 	t = t.getChild();
-				// 	if(((Grid)t.getData()).solved()){
-				// 		System.out.println("Solved tree" + t.toString());
-				// 		return t;
-				// 	}
-				// 	else{
-				// 		t.generateLevelDF(s, m);
-				// 	}
-				// }
-				    if(!t.isEmpty()){
-					t = t.buildGameDF(s, m, d);
-					}
-				//t.setSibling(t.buildGameDF(s, m, d));
-				//t.buildGameDF(s, m, d);
-				if(!s.isEmpty()){
-					s.pop();
-					t = (GameTree) s.top();
-					System.out.println("level is " + t.getLevel());
-					System.out.println("Not solved tree" + t.toString());
-				}
+
+			// checks the current level
+			if (t.getLevel() < d) {
+				t.generateLevelDF(s, m);
 			}
 		}
-	}
-	// if(s.isEmpty()){
-	//     System.out.println("Returing tree " + this.toString());
-	// 	return this;
-	// }
-	// else{
-	// 	System.out.println("Returing tree " + t.toString());
-	// 	return t;
-	// }
-	GameTree result = t;
-	while(result != null){
-		if(((Grid) result.getData()).solved()){
-			System.out.println("Solution found: " + result.toString());
-			System.out.println(result.toString());
-			System.out.println("s is " + s.toString());
-			return result;
-		}
-		else{
-			result = result.getChild();
-		}
-	}
-	if (s.isEmpty()){
+
+		// Return a new emtpy game tree if no solution is found
 		return new GameTree();
-	}
-	else{
-		return t;
-	}
 	}
 	
 	
