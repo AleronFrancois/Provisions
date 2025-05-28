@@ -284,11 +284,12 @@ public class Grid implements GridInterface, Cloneable
 	 *
 	 *	@param d the number of rows and columns in the grid
 	*/
-	public void setDimension(int d)
+	public void setDimension(int d, Location l, Symbol s)
 	{
       	trace("setDimension: setDimension starts");
 		//ME DO
 		dimension = d;
+		initialiseGrid();
 		
       	trace("setDimension: setDimension ends");
 	}
@@ -346,6 +347,7 @@ public class Grid implements GridInterface, Cloneable
 		{
 			q = getSquare(l);
 			m = (Symbol) s.clone();
+			m.setLocation(l);
 			q.setSymbol(m);
 		}
       	trace("occupySquare: occupySquare ends");
