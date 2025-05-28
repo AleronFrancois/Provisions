@@ -200,7 +200,7 @@ public class Symbol implements SymbolInterface, Cloneable
       	trace("clone: clone starts");
 		//ME DO
 		if (!isEmpty()){
-		s = new Symbol(icon, (Location) loc.clone());
+			s = new Symbol(icon, (Location) loc.clone());
 		}
 		else{
 			s = new Symbol();
@@ -231,6 +231,12 @@ public class Symbol implements SymbolInterface, Cloneable
       	trace("showSymbol: showSymbol starts");
 		
 		// where is this square
+		if (getLocation() == null)
+		{
+			trace("showSymbol: showSymbol ends (no location)");
+			return;	// no location so nothing to show
+		}
+		else{
 		r = getLocation().getRow();
 		c = getLocation().getColumn();
 		
@@ -245,6 +251,7 @@ public class Symbol implements SymbolInterface, Cloneable
 		}
 
       	trace("showSymbol: showSymbol ends");
+	}
 	}
 	
 	

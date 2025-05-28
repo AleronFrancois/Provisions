@@ -21,7 +21,7 @@ public class Stack implements StackInterface
 
 	// properties
 	protected Node tos;		// the node on the top of the stack
-
+	int count = 0;
 
 	/**
 	 *	Stack
@@ -177,6 +177,8 @@ public class Stack implements StackInterface
 			n.setNext(tos);
 			tos = n;
 		}
+		count++;
+		System.out.println("Count: " + count);
 
       	trace("push: push ends");
 	}

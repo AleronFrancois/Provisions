@@ -43,7 +43,6 @@ public class Location implements LocationInterface, Cloneable
       	trace("Location: Constructor starts");
 		row = r;
 		column = c;
-
       	trace("Location: Constructor ends");
 	}
 	
@@ -64,7 +63,6 @@ public class Location implements LocationInterface, Cloneable
 
       	trace("setRow: setRow starts");
 		row = r;
-
       	trace("setRow: setRow ends");
 	}
 	
@@ -80,12 +78,11 @@ public class Location implements LocationInterface, Cloneable
 	 *
 	 *	@param c the column number
 	*/
+
 	public void setColumn(int c)
 	{
-		//ME DO
       	trace("setColumn: setColumn starts");
 		column = c;
-
       	trace("setColumn: setColumn ends");
 	}
 	

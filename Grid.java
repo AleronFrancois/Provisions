@@ -2,8 +2,8 @@
 /**
  *	Grid ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois (Unknown ID)
+ *	@version 28/05/2025
  *	
  *	This file holds the Grid ADT which represents
  *	the n-Queens board.  The Grid consists of a location
@@ -60,10 +60,10 @@ public class Grid implements GridInterface, Cloneable
 	 *
 	 *	@param d number of rows and columns in grid
 	*/
+	//Initialises the grid with given dimensions
 	public Grid(int d)
 	{
       	trace("Grid: Constructor starts");
-		//ME DO
 		dimension = d;
 		initialiseGrid();
 		
@@ -144,7 +144,7 @@ public class Grid implements GridInterface, Cloneable
 			{
 				l = new Location(r, c);
 				if (l != null){
-				board[r-1][c-1] = new Square(l);
+					board[r-1][c-1] = new Square(l);
 				}
 			}
 		}
@@ -163,24 +163,23 @@ public class Grid implements GridInterface, Cloneable
 	 *
 	 *	@return Object the newly created copy of the grid
 	*/
+	//Creates an identical copy of the grid with different memory addresses
 	public Object clone()
 	{
 		final int MINIMUM = 1;	// minimum row and column number
 
-		Grid b = null;					// the new grid (i.e. the copy)
+		Grid b = new Grid(dimension); // the new grid (i.e. the copy)
 		Location l;				// a location value to iterate through the squares
 		Symbol s;				// the symbol of the 'current' square
-		
-      	trace("clone: clone starts");
-		//ME DO
-		for (int r = MINIMUM; r <= dimension; r++){
+		trace("clone: clone starts");
+        for (int r = MINIMUM; r <= dimension; r++){
 			for (int c = MINIMUM; c <= dimension; c++){
 				l = new Location(r, c);
 				s = board[r-1][c-1].getSymbol();
-				b = new Grid(dimension, l, s);
+				b.occupySquare(l, s);
 			}
 
-		}		
+		 }		
       	trace("clone: clone ends");
 		return b;
 	}
@@ -284,12 +283,11 @@ public class Grid implements GridInterface, Cloneable
 	 *
 	 *	@param d the number of rows and columns in the grid
 	*/
+	//Sets the dimension of the grid to the given value
 	public void setDimension(int d)
 	{
       	trace("setDimension: setDimension starts");
-		//ME DO
 		dimension = d;
-		
       	trace("setDimension: setDimension ends");
 	}
 
@@ -304,10 +302,10 @@ public class Grid implements GridInterface, Cloneable
 	 *
 	 *	@return int the number of rows and columns in the grid
 	*/
+	//Returns the dimension of the grid
 	public int getDimension()
 	{
       	trace("getDimension: getDimension starts and ends");
-		//ME DO
 		return dimension;
 	}
 
@@ -328,6 +326,8 @@ public class Grid implements GridInterface, Cloneable
 	 *	@param l Location to place symbol at
 	 *	@param s Symbol to place
 	*/
+	//Updates the square at the given location with the given symbol
+	//Used to place a new queen on the grid, in addition to the existing queens
 	public void occupySquare(Location l, Symbol s)
 	{
 		Square q;	// square at given Location in current Grid
@@ -347,6 +347,7 @@ public class Grid implements GridInterface, Cloneable
 			q = getSquare(l);
 			m = (Symbol) s.clone();
 			q.setSymbol(m);
+			setSquare(l, q);
 		}
       	trace("occupySquare: occupySquare ends");
 	}
@@ -369,17 +370,21 @@ public class Grid implements GridInterface, Cloneable
 	 *
 	 *	@param l Location of square to check
 	*/
+	//Checks if the square at the given location is occupied
+	//Used to check if the columns, rows, and diagonals are clear of queens
 	public boolean squareOccupied(Location l)
 	{
       	trace("squareOccupied: squareOccupied starts and ends");
-		//ME DO
 		Square square;	// square at given Location in current Grid
 		boolean result;	// result	
 		Symbol symbol;	// symbol of square at given Location
+
 		square = getSquare(l);
 		symbol = square.getSymbol();
 		result = symbol.isEmpty();
-		return result;
+		trace("squareOccupied: squareOccupied ends");
+		//returns !result, as if the symbol is empty (true), then the square is not occupied (false)
+		return !result;
 	}
 	
 	
@@ -397,6 +402,7 @@ public class Grid implements GridInterface, Cloneable
 	 *	@param l Location to consider
 	 *	@return boolean whether or not Location is on the grid
 	*/
+	//Checks if the given location is within the bounds of the grid
 	public boolean validMove(Location l)
 	{
 		final int MINIMUM = 1;	// minimum row and column number
@@ -408,12 +414,9 @@ public class Grid implements GridInterface, Cloneable
       	trace("validMove: validMove starts");
 		r = l.getRow();
 		c = l.getColumn();
-		if (r >= MINIMUM && r <= dimension && c >= MINIMUM && c <= dimension){
-			b = true;
-		}
-		else {
-			b = false;
-		}
+
+		// check if the row and column are within the bounds of the grid
+		b = (r >= MINIMUM && r <= dimension && c >= MINIMUM && c <= dimension);
       	trace("validMove: validMove ends");
 		return b;
 	}
@@ -523,6 +526,8 @@ public class Grid implements GridInterface, Cloneable
 	*
 	*	@return boolean whether the column is clear
 	*/
+	//Checks if the column at the given location is clear of queens
+	//Used to check if it is possible to place a new queen in the column
 	protected boolean columnClear(Location l)
 	{
 		final int MINIMUM = 1;	// minimum row and column number
@@ -531,11 +536,13 @@ public class Grid implements GridInterface, Cloneable
 		Location l1;	// Location iterated through
 
 		trace("columnClear: columnClear starts");
-		//ME DO
 		c = l.getColumn();
+		//Check every row in the given colum
 		for (int r = MINIMUM; r <= dimension; r++) {
 			l1 = new Location(r,c);
+			//if any square in the column is occupied, return false
 			if (squareOccupied(l1)){
+				trace("columnClear: columnClear finishes with false");
 				return false;
 			}
 		}

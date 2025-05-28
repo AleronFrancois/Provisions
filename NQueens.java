@@ -32,8 +32,8 @@ import java.awt.event.*;
 public class NQueens extends Frame implements NQueensInterface, ActionListener
 {
 	// finals
-	protected final boolean TRACING = true;										// do we want to see trace output?
-	protected final int LIMIT = 2;													// *** maximum number of levels to create -- CHANGE THIS TO Integer.MAX_VALUE ONCE GAME IS WORKING
+	protected final boolean TRACING = false;										// do we want to see trace output?
+	protected final int LIMIT = 8;													// *** maximum number of levels to create -- CHANGE THIS TO Integer.MAX_VALUE ONCE GAME IS WORKING
 	protected final Image ICON = Toolkit.getDefaultToolkit().getImage("crown.png");	// picture of Queen
 	
 	protected final int LOW_DIMENSION=4;	// minimum for grid size range
@@ -144,6 +144,8 @@ public class NQueens extends Frame implements NQueensInterface, ActionListener
 		board = new Grid(dim, loc, queen);
 		window = new Display();
       	window.setGraphics(getGraphics());
+		//ADDED BY US BECAUSE THE GAME VARIABLE WAS NOT INITIALISED
+		//game = new GameTree(board, MINIMUM);
 
 		// reveal all
 		trace("NQueens: Display it all and wait!");
@@ -181,13 +183,18 @@ public class NQueens extends Frame implements NQueensInterface, ActionListener
 			trace("paint: solving/solved so show (partial) solution");
 		
 			b = (Grid)game.getData();
-			trace("paint: solution is: " + b.toString());
+			System.out.println("paint: solution is: " + b.toString());
+			if (b != null){
 			b.showGrid(window);
+
+		}
 		}
 		else
 		{	// not yet started so show starting point
+			//if(board != null){
 			board.showGrid(window);
-			trace("paint: yet to start solving");
+			System.out.println("paint: yet to start solving");
+		//}
 		}
 	    
 	    trace("paint: paint ends");
@@ -305,15 +312,15 @@ public class NQueens extends Frame implements NQueensInterface, ActionListener
 				// resultant game is empty hence there is no solution
 				board = new Grid(dim, loc, queen);
 				showStatus("No solution!");
-				trace("actionPerformed: no solution");
+				System.out.println("actionPerformed: no solution");
 				game = new GameTree(board, MINIMUM);
 			}
 			else
 			{
 				// resultant game is non-empty hence solution determined
-				showStatus("Solution found");
+				System.out.println("Solution found");
 				g = (Grid)game.getData();
-				trace("actionPerformed: " + g.toString());
+				System.out.println("actionPerformed: " + g.toString());
 			}
 		}
 

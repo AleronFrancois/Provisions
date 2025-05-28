@@ -1,9 +1,12 @@
+
+import com.sun.source.tree.ConstantCaseLabelTree;
+
 //KIT107 Assignment 3
 /**
  *	GameTree ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois (Unknown ID)
+ *	@version 28/05/2025
  *	
  *	This file holds the GameTree ADT which is a
  *	general game tree.  The GameTree is built using
@@ -32,7 +35,8 @@ public class GameTree implements GameTreeInterface {
 	public GameTree() {
 		trace("GameTree: constructor starts");
 		//ME DO
-		root = new TNode(null, 0);
+		Grid g = new Grid(); // create an empty grid
+		root = new TNode(g, 0);
 		
 		trace("GameTree: constructor ends");
 	}
@@ -75,8 +79,12 @@ public class GameTree implements GameTreeInterface {
 	*/
 	public boolean isEmpty() {
 		trace("isEmpty: isEmpty starts and ends");
-		
-		return (root == null);
+		if(root == null){
+			return true;
+		}
+		else{
+			return(root.getData() == null);
+		}
 	}
 
 
@@ -319,7 +327,8 @@ public class GameTree implements GameTreeInterface {
 	 *	@param s Stack of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelDF(Stack s, Symbol m) {
+	public void generateLevelDF(Stack s, Symbol m)
+	{
 		final int MINIMUM = 1;	// minimum row and column number
 
 		GameTree t;		// new game tree leaf being created
@@ -327,21 +336,42 @@ public class GameTree implements GameTreeInterface {
 		int d;			// dimension of current game tree's board
 		Grid b1;		// board of current game tree
 		Grid b2;		// new board for game tree leaf being created
-		Location l;		// potential location for queen on new board
+		Location l;	    // potential location for queen on new board
 	
-		trace("generateLevelDF: generateLevelDF starts");
-		//ME DO
-		b1 = (Grid)root.getData();
-		d = b1.getDimension();
-		l = m.getLocation();
-		b2 = new Grid(d, l, m);
-		v = root.getLevel();
-		t = new GameTree(b2, v + 1);
-		s.push(t);
+		System.out.println("generateLevelDF: generateLevelDF starts");
+		// //ME DO
+		// t = this;
+		v = getLevel();
+		d = ((Grid) root.getData()).getDimension(); // get dimension of board
+		b1 = (Grid) root.getData();
+		//while (b1 != null){
+			for(int i = MINIMUM; i <= d; i++) {
+				for(int j = MINIMUM; j <= d; j++){
+					l = new Location(i,j);
+					if (b1.rowClear(l) && b1.columnClear(l) && b1.diagonalsClear(l)) {
+						// create a new board for the game tree leaf
+						b2 = (Grid) b1.clone();
+						b2.occupySquare(l, m); // place the queen on the new board
+						//System.out.println("b1 cloned = " + b1.clone());
+						//System.out.println("b2 = " + b2);
+						// create a new game tree leaf with the new board and level
+						t = new GameTree(b2, v + 1);
+						// set the sibling of the current game tree to the new one
+					    setChild(t);
+						//System.out.println("t in generateLevel" + t.toString());
+						// push the new game tree onto the stack
+						System.out.println("t is " + t.toString());
+						s.push(t);
+					   }
+					//b1 = (Grid) t.getSibling().root.getData();
 
+				}
+
+			}
 		
 		trace("generateLevelDF: generateLevelDF ends");
-	}
+	//}
+}
 	
 	
 	/**
@@ -369,35 +399,147 @@ public class GameTree implements GameTreeInterface {
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameDF(Stack s, Symbol m, int d) {
-		GameTree t = null; // result
-		//COMPLETE
+	public GameTree buildGameDF(Stack s, Symbol m, int d)
+	{
+		GameTree t;	// result
+		// t = new GameTree();
+		// while (t.getLevel() < 5 && !s.isEmpty()) {
 		trace("buildGameDF: buildGameDF starts");
-
-		if (isEmpty()) {
-			trace("BuildGameDF: The tree is empty at the moment");
+		// 	t.setChild(t.generateLevelDF(s, m));
+		// }
+		// System.out.println("Current game tree: " + t.toString());
+		// GameTree result = new GameTree();
+		// if(!s.isEmpty()){
+		// 	Grid c = (Grid) ((GameTree) s.top()).getData();
+		// 	Stack cStack = s;
+		// 	while (c != null && !cStack.isEmpty()) {
+		// 		if (c.solved()){
+		// 			GameTree cTree = new GameTree(c, c.getDimension());
+		// 			//System.out.println("Solution found: " + cTree.toString());
+		// 			result = cTree;
+		// 		}
+		// 		else{
+		// 			cStack.pop();
+		// 			if (!cStack.isEmpty()){
+		// 				c = (Grid) ((GameTree)cStack.top()).getData();
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// Location l = (Location) m.getLocation();
+		// Grid g = new Grid(d, l, m);
+		// t = new GameTree(g, getLevel());
+		t = this;
+		if(isEmpty()){
+			return new GameTree();
+		}
+		//s.push(t);
+		//System.out.println("s is " + s.toString());
+		// if (t.getLevel() < d){
+		// 	if (s.isEmpty()){
+		// 		return new GameTree();
+		// 	}
+		// 	else{
+		// 		t = (GameTree) s.top();
+		// 		while(!t.isEmpty() && t.getLevel() < d){
+		// 			t = t.getSibling();
+		// 			if(((Grid)t.getData()).solved()){
+		// 				System.out.println("Solved tree" + t.rootNodeToString());
+		// 				return t;
+		// 			}
+		// 			else{
+		// 			GameTree t2 = t.getChild();
+		// 			while (!t2.isEmpty() && t.getLevel() < d) {
+		// 				if(((Grid)t.getData()).solved()){
+		// 					System.out.println("Solved tree" + t.rootNodeToString());
+		// 					return t;
+		// 				}
+		// 				else{
+		// 					t.generateLevelDF(s, m);
+		// 					t = t.getChild();
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
+	    // 
+		System.out.println("t.getLevel " + t.getLevel());
+		if(((Grid) t.getData()).solved()) {
 			return t;
 		}
+		if (t.getLevel() < d){
+			if (s.isEmpty()){
+				s.push(t);
+				//return new GameTree();
+			}
+			else{
+				t = (GameTree) s.top();
+			}
 
-		if (getLevel() == d) {
-			trace("buildGameDF: The tree is already deep enough");
-			return this;
-		}
-		
-		generateLevelDF(s, m);
-
-		while (!s.isEmpty()) {
-			GameTree next = null;
-			t = next.buildGameDF(s, m, d);
-
-			if (!t.isEmpty()) {
-				trace("buildGameDF: A solution has been found");
+			if(((Grid)t.getData()).solved()){
+				System.out.println("Solved tree" + t.rootNodeToString());
+				while(!s.isEmpty()){
+					s.pop();
+				}
+				System.out.println("This equals " + t.toString());
+				this.setData(t.getData());
+				this.setLevel(t.getLevel());
 				return t;
 			}
+			else{
+				if(!s.isEmpty() && !t.isEmpty()){
+					t.generateLevelDF(s, m);
+				// while(!t.getChild().isEmpty()){
+				// 	System.out.println("Get child actually used");
+				// 	t = t.getChild();
+				// 	if(((Grid)t.getData()).solved()){
+				// 		System.out.println("Solved tree" + t.toString());
+				// 		return t;
+				// 	}
+				// 	else{
+				// 		t.generateLevelDF(s, m);
+				// 	}
+				// }
+				    if(!t.isEmpty()){
+					t = t.buildGameDF(s, m, d);
+					}
+				//t.setSibling(t.buildGameDF(s, m, d));
+				//t.buildGameDF(s, m, d);
+				if(!s.isEmpty()){
+					s.pop();
+					t = (GameTree) s.top();
+					System.out.println("level is " + t.getLevel());
+					System.out.println("Not solved tree" + t.toString());
+				}
+			}
 		}
-
-		trace("buildGameDF: buildGameDF ends");
+	}
+	// if(s.isEmpty()){
+	//     System.out.println("Returing tree " + this.toString());
+	// 	return this;
+	// }
+	// else{
+	// 	System.out.println("Returing tree " + t.toString());
+	// 	return t;
+	// }
+	GameTree result = t;
+	while(result != null){
+		if(((Grid) result.getData()).solved()){
+			System.out.println("Solution found: " + result.toString());
+			System.out.println(result.toString());
+			System.out.println("s is " + s.toString());
+			return result;
+		}
+		else{
+			result = result.getChild();
+		}
+	}
+	if (s.isEmpty()){
+		return new GameTree();
+	}
+	else{
 		return t;
+	}
 	}
 	
 	
@@ -415,7 +557,8 @@ public class GameTree implements GameTreeInterface {
 	 *	@param q Queue of reachable but unexpanded game trees
 	 *	@param m queen symbol to add to the level
 	*/
-	public void generateLevelBF(Queue q, Symbol m) {
+	public void generateLevelBF(Queue q, Symbol m)
+	{
 		final int MINIMUM = 1;	// minimum row and column number
 
 		GameTree t;		// new game tree leaf being created
@@ -426,15 +569,8 @@ public class GameTree implements GameTreeInterface {
 		Location l;		// potential location for queen on new board
 
 		trace("generateLevelBF: generateLevelBF starts");
-		//ME DO
-		b1 = (Grid)root.getData();
-		d = b1.getDimension();
-		l = m.getLocation();
-		b2 = new Grid(d, l, m);
-		v = root.getLevel();
-		t = new GameTree(b2, v + 1);
-		q.add(t);
-
+		
+//COMPLETE ME
 		
 		trace("generateLevelBF: generateLevelBF ends");
 	}
@@ -466,37 +602,16 @@ public class GameTree implements GameTreeInterface {
 	 *
 	 *	@return GameTree either the solution or an empty tree if there is no solution
 	*/
-	public GameTree buildGameBF(Queue q, Symbol m, int d) {
-		GameTree t = new GameTree(); // result
-		//COMPLETE
+	public GameTree buildGameBF(Queue q, Symbol m, int d)
+	{
+		GameTree t;		// result
 		
 		trace("buildGameBF: buildGameBF starts");
 		
-		// Return an empty tree if the current tree is empty
-		if (isEmpty()) {
-			return t;
-		}
-
-		// Return the current tree if it is already deep enough
-		if (getLevel() == d) {
-			return this;
-		}
-
-		// Generate the next level of the tree and push the queue and queen symbol onto the stack
-		generateLevelBF(q, m);
-
-		// Finds a solution by removing the front of the stack
-		while (!q.isEmpty()) {
-			GameTree next = null;
-			t = next.buildGameBF(q, m, d);
-
-			// If a solution is found, return it
-			if (!t.isEmpty()) {
-				return t;
-			}
-		}		
+//COMPLETE ME
 
 		trace("buildGameBF: buildGameBF ends");
+
 		return t;
 	}				
 
@@ -598,6 +713,90 @@ public class GameTree implements GameTreeInterface {
 	}
 }
 
-		}
-	}
-}
+
+// if (!isEmpty()) {
+		// 	System.out.println("passed empty game tree check");
+		// 	// get the current game tree
+		// 	t = this;
+		// 	v = t.getLevel(); // new level is one more than current
+		// 	d = ((Grid) t.root.getData()).getDimension(); // get dimension of board
+		// 	b1 = (Grid) t.root.getData(); // get the current board
+
+		// 	// loop through all locations on the board
+		// 	//while (v < d && !s.isEmpty()){
+		// 		//System.out.println("d = " + d + " Current level = " + v);
+		// 		for (int i = MINIMUM; i <= 5; i++) {
+		// 			for (int j = MINIMUM; j <= 5; j++) {
+		// 				l = new Location(i, j); // create a new location
+		// 				// check if the location is valid for placing a queen
+		// 				if (b1.rowClear(l) && b1.columnClear(l) && b1.diagonalsClear(l)) {
+		// 					//System.out.println("passed valid move check");
+		// 					b2 = (Grid) b1.clone(); // copy the current board
+		// 					b2.occupySquare(l, m); // place the queen on the new board
+		// 					// create a new game tree leaf with the new board and level
+		// 					//System.out.println("'New game tree leaf: " + b2.toString());
+		// 					t = new GameTree(b2, v);
+		// 					setSibling(t);
+		// 					setChild(t.buildGameDF(s, m, d));
+		// 					//System.out.println("New game tree leaf: " + t.toString());
+		// 					// push the new game tree onto the stack
+		// 					s.push(t);
+		// 					//System.out.println("Stack is now: " + s.toString());
+		// 					//System.out.println("generate new level after adding to stack");
+		// 					count = count + 1; // increment the count of game tree leaves
+		// 					//System.out.println("Count equals " + count);
+		// 			}
+		// 		}
+		// 	}
+
+		// 	//}
+		// }
+
+
+
+		//SECOND ONE
+		// if (s.isEmpty()) {
+		// 	t = new GameTree();
+		// 	s.push(t);
+		// }
+		// else{
+		// 	t = (GameTree) s.top();
+		// }
+		// if (!s.isEmpty()){
+		// 	trace("passed empty game tree check");
+		// 	//s.push(t);
+		// 	System.out.println("d = " + d + "Current level = " + t.getLevel());
+		// 	while (t.getLevel() < 5 && !s.isEmpty()) {
+		// 		System.out.println("t level = " + t.getLevel());
+		// 		t.generateLevelDF(s, m);
+		// 		t.setLevel(t.getLevel() + 1);
+		// 		//System.out.println("Current game tree: " + t.toString());
+		// 		//System.out.println("Current stack: " + s.toString());
+		// 		//trace("pushing t onto stack");
+		// 		//s.push(t);
+		// 	}
+		// }
+		// return t;
+		// //System.out.println("Current stack: " + s.toString());
+		// // GameTree result = new GameTree();
+		// // if(!s.isEmpty()){
+		// // 	Grid c = (Grid) ((GameTree) s.top()).getData();
+		// // 	Stack cStack = s;
+		// // 	while (c != null && !cStack.isEmpty()) {
+		// // 		if (c.solved()){
+		// // 			GameTree cTree = new GameTree(c, c.getDimension());
+		// // 			//System.out.println("Solution found: " + cTree.toString());
+		// // 			result = cTree;
+		// // 		}
+		// // 		else{
+		// // 			cStack.pop();
+		// // 			if (!cStack.isEmpty()){
+		// // 				c = (Grid) ((GameTree)cStack.top()).getData();
+		// // 			}
+		// // 		}
+		// // 	}
+		// // }
+
+		// // trace("buildGameDF: buildGameDF ends");
+		// // //System.out.println("No solution found" + t.toString());
+		// // return result;
