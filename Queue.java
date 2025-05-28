@@ -2,8 +2,8 @@
 /**
  *	Queue ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois 691807
+ *	@version 28/05/2025
  *	
  *	This file holds the Queue ADT.  The Queue is built
  *	using a linked list of Node ADTs.  A Queue object
@@ -76,11 +76,11 @@ public class Queue implements QueueInterface
 	 *
 	 *	@return boolean whether or not the queue is empty
 	*/
+	//Returns if the queue is empty
 	public boolean isEmpty()
 	{
 	   	trace("isEmpty: isEmpty starts and ends");
-
-//COMPLETE ME
+		return (first == null);
 	}
 
 
@@ -96,6 +96,8 @@ public class Queue implements QueueInterface
 	 *
 	 *	@return Object the item at the head of the queue
 	*/
+	//Completed by Iola Fleming 730234
+	//Returns the first item in the queue
 	public Object front() throws EmptyQueueException
 	{
 	   	trace("front: front starts");
@@ -110,7 +112,6 @@ public class Queue implements QueueInterface
 		{
 			// first value exists
 		   	trace("front: front ends");
-			//ME DO
 			return first.getData();
 		}
 	}
@@ -128,6 +129,8 @@ public class Queue implements QueueInterface
 	 *				the second node in the Queue becomes the front.
 	 *				If the Queue is empty, throw an exception
 	*/
+	//Completed by Iola Fleming 730234
+	//Removes the first item in the queue, sets first to the next item
 	public void remove() throws EmptyQueueException
 	{
 	   	trace("remove: remove starts");
@@ -142,7 +145,6 @@ public class Queue implements QueueInterface
 		{
 			// first value exists
 		   	trace("remove: updating first node");
-			//ME DO
 			first = first.getNext();
 		}
 
@@ -166,23 +168,26 @@ public class Queue implements QueueInterface
 	 *
 	 *	@param Object the item to add to the queue
 	*/
+	//Completed by Iola Fleming 730234
+	//Adds a new item to the end of the queue, allowing for breadth-first traversal
 	public void add(Object o)
 	{
 		Node c;	// node for traversing the linked list
 		Node n;	// new node for value to be added
 		
 	   	trace("add: add starts");
-		//ME DO
 		n = new Node(o);
 		if(isEmpty()){
 			first = n;
 		}
 		else{	
+			//Pulls through the queue from c, when at the end n's next becomes c's old next(null), and c's next becomes n
 			c = first;
 			while (c.getNext() != null)
 			{
 				c = c.getNext();
 			}
+			n.setNext(c.getNext());
 			c.setNext(n);
 		}
 		

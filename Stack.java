@@ -2,8 +2,8 @@
 /**
  *	Stack ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois 691807
+ *	@version 28/05/2025
  *	
  *	This file holds the Stack ADT.  The Stack is built
  *	using a linked list of Node ADTs.  A Stack object
@@ -21,7 +21,6 @@ public class Stack implements StackInterface
 
 	// properties
 	protected Node tos;		// the node on the top of the stack
-
 
 	/**
 	 *	Stack
@@ -76,10 +75,11 @@ public class Stack implements StackInterface
 	 *
 	 *	@return boolean whether or not the Stack is empty
 	*/
+	//Completed by Iola Fleming 730234
+	//tests if the top of the stack is null
 	public boolean isEmpty()
 	{
       	trace("isEmpty: isEmpty starts and ends");
-		//ME DO
 		return (tos == null);
 	}
 
@@ -96,6 +96,8 @@ public class Stack implements StackInterface
 	 *
 	 *	@return Object the item at the top of the Stack
 	*/
+	//Completed by Iola Fleming 730234
+	//Returns the data contained in the top of the stack
 	public Object top() throws EmptyStackException
 	{
       	trace("top: top starts");
@@ -110,7 +112,6 @@ public class Stack implements StackInterface
 		{
 			// top value exists
 	      	trace("top: top ends");
-			//ME DO
 			return tos.getData();
 		}
 	}
@@ -128,6 +129,8 @@ public class Stack implements StackInterface
 	 *				the second node on the Stack becomes the top.  If
 	 *				the Stack is empty, throw an exception
 	*/
+	//Completed by Iola Fleming 730234
+	//Removes the top value of the stack, and makes the new top the original second value
 	public void pop() throws EmptyStackException
 	{
       	trace("pop: pop starts");
@@ -142,7 +145,6 @@ public class Stack implements StackInterface
 		{
 			// top value exists
 	      	trace("pop: adjusting top of stack");
-			//ME DO
 			tos = tos.getNext();
 		}
 		
@@ -164,10 +166,11 @@ public class Stack implements StackInterface
 	 *
 	 *	@param o the Object to add to the top of the Stack
 	*/
+	//Completed by Iola Fleming 730234
+	//Adds a new value on top of the existing stack
 	public void push(Object o)
 	{
 		Node n;	// new node for value to be added
-		//ME DO
       	trace("push: push starts");
 		n = new Node(o);
 		if(isEmpty()){

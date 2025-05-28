@@ -2,8 +2,8 @@
 /**
  *	Square ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois 691807
+ *	@version 28/05/2025
  *	
  *	This file holds the Square ADT which represents
  *	a physical space within a grid.  A Square in a
@@ -40,10 +40,11 @@ public class Square implements SquareInterface, Cloneable
 	 *
 	 *	@param l the Location to associate with the Square
 	*/
+	//Completed by Iola Fleming 730234
+	//Constructor for Square, sets location to the value passed in and initialises
 	public Square(Location l)
 	{		
       	trace("Square: Constructor starts");
-		//ME DO
 		loc = l;
 		symbol = new Symbol();
 		initialiseSquare(loc, symbol);
@@ -66,13 +67,14 @@ public class Square implements SquareInterface, Cloneable
 	 *	@param l the Location to associate with the Square
 	 *	@param s the Symbol to store in the Square
 	*/
+	//Completed by Iola Fleming 730234
+	//Constructior for Square, sets location and symbol to the values passed in and initialises
 	public Square(Location l, Symbol s)
 	{
       	trace("Square: Constructor starts");
-		//ME DO
-		  loc = l;
-		  symbol = s;
-		  initialiseSquare(loc, symbol);
+		loc = l;
+		symbol = s;
+		initialiseSquare(loc, symbol);
 
       	trace("Square: Constructor ends");
 	}
@@ -122,12 +124,14 @@ public class Square implements SquareInterface, Cloneable
 	 *	@return boolean whether or not the square doesn't contain a
 	 *				players' symbol
 	*/
+	//Completed by Iola Fleming 730234
+	//Checks if the symbol in the square is 'empty' or present.
 	public boolean isEmpty()
 	{		
       	trace("isEmpty: isEmpty starts and ends");
-		//ME DO
+
 		return(symbol.isEmpty());
-		}
+	}
 	
 	
 	/**
@@ -254,13 +258,16 @@ public class Square implements SquareInterface, Cloneable
 	 *
 	 *	@return Object the copy of the current Square
 	*/
+	//Completed by Iola Fleming 730234
+	//Creates a new Square with the same location and symbol as the current square, without the same pointers
 	public Object clone()
 	{
 		Square s;	// the new Square
 		
       	trace("clone: clone starts");
-		//ME DO
+
 		s = new Square((Location)loc.clone(), (Symbol)symbol.clone());
+
       	trace("clone: clone ends");
 		return s;
 	}

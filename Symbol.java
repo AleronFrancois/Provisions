@@ -2,8 +2,8 @@
 /**
  *	Symbol ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois 691807
+ *	@version 28/05/2025
  *	
  *	This file holds the Symbol ADT which represents
  *	pieces within the two-dimensional grid.
@@ -82,10 +82,12 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *	@param i the icon (image) to use
 	 *	@param l the location for the position of the symbol
 	*/
+	//Completed by Iola Fleming 730234
+	//Constructor for Symbol, sets icon and location to the values passed in
 	protected Symbol(Image i, Location l)
 	{
      	trace("Symbol: Constructor starts");
-		//ME DO
+		
 		setIcon(i);
 		setLocation(l);
 
@@ -100,10 +102,12 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *					and false otherwise
 	 *	Informally: examine the Symbol to see if it is empty or not
 	*/
+	//Completed by Iola Fleming 730234
+	//Checks if the icon is null, if so returns true, otherwise false
 	public boolean isEmpty()
 	{
 		trace("isEmpty: isEmpty starts and ends");
-		//ME DO
+
 		return (icon == null);
 	}
 	
@@ -119,10 +123,12 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *
 	 *	@param i the icon (image) to use
 	*/
+	//Completed by Iola Fleming 730234
+	//Assigns the passed in value to icon
 	public void setIcon(Image i)
 	{	
 		trace("setIcon: setIcon starts");
-		//ME DO
+		
 		icon = i;
 
 		trace("setIcon: setIcon ends");
@@ -139,10 +145,12 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *
 	 *	@param l the location for the position of the symbol
 	*/
+	//Completed by Iola Fleming 730234
+	//Assigns the passed in value to loc
 	public void setLocation(Location l)
 	{
 		trace("setLocation: setLocation starts");
-		//ME DO
+
 		loc = l;
 
 		trace("setLocation: setLocation ends");
@@ -159,10 +167,12 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *
 	 * @return Image the current symbol's icon
 	*/
+	//Completed by Iola Fleming 730234
+	//Returns the value of icon
 	public Image getIcon()
 	{
 		trace("getIcon: getIcon starts and ends");
-		//ME DO
+
 		return icon;
 	}
 	
@@ -176,10 +186,12 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *
 	 * @return Location the current symbol's location
 	*/
+	//Completed by Iola Fleming 730234
+	//Returns the location of the symbol
 	public Location getLocation()
 	{
 		trace("getLocation: getLocation starts and ends");
-		//ME DO
+		
 		return loc;
 	}
 	
@@ -193,18 +205,21 @@ public class Symbol implements SymbolInterface, Cloneable
 	 *
 	 *	@return Object the copy of the Symbol
 	*/
+	//Completed by Iola Fleming 730234
+	//Creates a new identical Symbol object with the same icon and location as the current symbol
 	public Object clone()
 	{
 		Symbol s;	// result
 		
       	trace("clone: clone starts");
-		//ME DO
+		
 		if (!isEmpty()){
-		s = new Symbol(icon, (Location) loc.clone());
+			s = new Symbol(icon, (Location) loc.clone());
 		}
 		else{
 			s = new Symbol();
 		}
+
 		trace("clone: clone ends");
 		return s;
 	}
@@ -231,6 +246,12 @@ public class Symbol implements SymbolInterface, Cloneable
       	trace("showSymbol: showSymbol starts");
 		
 		// where is this square
+		if (getLocation() == null)
+		{
+			trace("showSymbol: showSymbol ends (no location)");
+			return;	// no location so nothing to show
+		}
+		else{
 		r = getLocation().getRow();
 		c = getLocation().getColumn();
 		
@@ -245,6 +266,7 @@ public class Symbol implements SymbolInterface, Cloneable
 		}
 
       	trace("showSymbol: showSymbol ends");
+	}
 	}
 	
 	

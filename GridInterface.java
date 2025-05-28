@@ -20,6 +20,7 @@ public interface GridInterface
 	//public Grid();
 	//public Grid(int d)
 	//public Grid(int d, Location l, Symbol s) throws IllegalGridException;
+	public boolean isEmpty();
 	public Object clone();
 	public void setSquare(Location l, Square s) throws IllegalGridException;
 	public Square getSquare(Location l) throws IllegalGridException;

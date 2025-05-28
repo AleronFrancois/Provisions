@@ -2,8 +2,8 @@
 /**
  *	Location ADT
  *
- *	@author <Insert names and student IDs>
- *	@version <Insert date>
+ *	@author Iola Fleming 730234 and Aleron Francois 691807
+ *	@version 28/05/2025
  *	
  *	This file holds the Location ADT which represents
  *	indices to (positions within) the two-dimensional grid.
@@ -37,13 +37,14 @@ public class Location implements LocationInterface, Cloneable
 	 *	@param r the row number
 	 *	@param c the column number
 	*/
+	//Completed by Iola Fleming 730234
+	//Constructor for Location, sets row and column to the values passed in
 	public Location(int r, int c)
 	{
 
       	trace("Location: Constructor starts");
 		row = r;
 		column = c;
-
       	trace("Location: Constructor ends");
 	}
 	
@@ -59,12 +60,12 @@ public class Location implements LocationInterface, Cloneable
 	 *
 	 *	@param r the row number
 	*/
+	//Completed by Iola Fleming 730234
+	//Assigns the passed in value to row
 	public void setRow(int r)
 	{
-
       	trace("setRow: setRow starts");
 		row = r;
-
       	trace("setRow: setRow ends");
 	}
 	
@@ -80,12 +81,12 @@ public class Location implements LocationInterface, Cloneable
 	 *
 	 *	@param c the column number
 	*/
+	//Completed by Iola Fleming 730234
+	//Assigns the passed in value to column
 	public void setColumn(int c)
 	{
-		//ME DO
       	trace("setColumn: setColumn starts");
 		column = c;
-
       	trace("setColumn: setColumn ends");
 	}
 	
@@ -101,6 +102,8 @@ public class Location implements LocationInterface, Cloneable
 	 *
 	 *	@return int the row number
 	*/
+	//Completed by Iola Fleming 730234
+	//Returns the value of row
 	public int getRow()
 	{
       	trace("getRow: getRow starts and ends");
@@ -119,6 +122,8 @@ public class Location implements LocationInterface, Cloneable
 	 *
 	 *	@return int the column number
 	*/
+	//Completed by Iola Fleming 730234
+	//Returns the value of column
 	public int getColumn()
 	{
       	trace("getColumn: getColumn starts and ends");
@@ -136,13 +141,14 @@ public class Location implements LocationInterface, Cloneable
 	 *
 	 *	@return Object the copied Location
 	*/
+	//Completed by Iola Fleming 730234
+	//Creates a new Location object with the same row and column values
 	public Object clone()
 	{
-		Location l;
+		Location l; // the new Location object to be returned
 		
       	trace("clone: clone starts");
 		l = new Location(row, column);
-
       	trace("clone: clone ends");
 		return l;
 	}
