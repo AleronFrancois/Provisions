@@ -346,8 +346,8 @@ public class Grid implements GridInterface, Cloneable
 		{
 			q = getSquare(l);
 			m = (Symbol) s.clone();
+			m.setLocation(l);
 			q.setSymbol(m);
-			setSquare(l, q);
 		}
       	trace("occupySquare: occupySquare ends");
 	}
